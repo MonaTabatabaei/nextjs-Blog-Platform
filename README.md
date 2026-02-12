@@ -2,6 +2,8 @@
 
 A production-ready blog application built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui** as part of a technical interview task.
 
+👉 **Live demo:** [`https://nextjs-blog-platform-c7ly.vercel.app/`](https://nextjs-blog-platform-c7ly.vercel.app/)
+
 ---
 
 ## 🚀 Tech Stack
