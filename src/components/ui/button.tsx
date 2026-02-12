@@ -1,0 +1,70 @@
+import * as React from "react";
+
+import { cn } from "@/lib/utils";
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
+  size?: "default" | "sm" | "lg" | "icon";
+  /**
+   * When true, the button styles are applied to the child element instead of
+   * rendering a <button>. This mimics the shadcn `asChild` pattern.
+   */
+  asChild?: boolean;
+}
+
+const buttonVariants = {
+  default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+  destructive:
+    "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+  outline:
+    "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+  secondary:
+    "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+  ghost: "hover:bg-accent hover:text-accent-foreground",
+  link: "text-primary underline-offset-4 hover:underline",
+};
+
+const sizeVariants = {
+  default: "h-9 px-4 py-2",
+  sm: "h-8 rounded-md px-3 text-xs",
+  lg: "h-10 rounded-md px-8",
+  icon: "size-9",
+};
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    { className, variant = "default", size = "default", asChild, children, ...props },
+    ref,
+  ) => {
+    const classes = cn(
+      "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+      buttonVariants[variant],
+      sizeVariants[size],
+      className,
+    );
+
+    if (asChild && React.isValidElement(children)) {
+      const child = children as React.ReactElement<{ className?: string }>;
+      return React.cloneElement(child, {
+        className: cn(classes, child.props.className),
+      });
+    }
+
+    return (
+      <button className={classes} ref={ref} {...props}>
+        {children}
+      </button>
+    );
+  },
+);
+
+Button.displayName = "Button";
+
+export { Button };

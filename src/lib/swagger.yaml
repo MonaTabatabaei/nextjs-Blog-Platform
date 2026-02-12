@@ -1,0 +1,307 @@
+openapi: 3.0.3
+info:
+  title: Blog Platform API
+  version: 1.1.0
+servers:
+  - url: https://jsonplaceholder.typicode.com
+
+tags:
+  - name: Posts
+    description: Operations related to blog posts
+  - name: Comments
+    description: Operations related to comments on posts
+  - name: Users
+    description: Operations related to blog authors (users)
+
+paths:
+  /posts:
+    get:
+      tags: [Posts]
+      summary: Get all posts
+      operationId: getPosts
+      responses:
+        "200":
+          description: List of blog posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /posts/{id}:
+    get:
+      tags: [Posts]
+      summary: Get a single post by ID
+      operationId: getPostById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A single post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /posts/{id}/comments:
+    get:
+      tags: [Comments]
+      summary: Get comments for a post (by path param)
+      description: |
+        JSONPlaceholder supports getting comments for a specific post
+        via `/posts/{id}/comments`. This is equivalent to filtering
+        `GET /comments` by `postId`.
+      operationId: getPostCommentsById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of comments for the post
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /users:
+    get:
+      tags: [Users]
+      summary: Get all users
+      description: Used to resolve author information for blog posts.
+      operationId: getUsers
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /users/{userId}:
+    get:
+      tags: [Users]
+      summary: Get user info by ID
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /comments:
+    get:
+      tags: [Comments]
+      summary: Get comments (optionally filtered by postId)
+      description: |
+        Returns all comments, or comments for a specific post when
+        `postId` query parameter is provided. This matches the usage
+        in the app where comments are fetched via `GET /comments?postId={id}`.
+      operationId: getComments
+      parameters:
+        - name: postId
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: When provided, filters comments to a single post.
+      responses:
+        "200":
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+    post:
+      tags: [Comments]
+      summary: Create a comment (simulated)
+      description: |
+        JSONPlaceholder simulates a POST /comments request and always
+        returns a created comment without persisting it.
+      operationId: createComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewComment"
+      responses:
+        "201":
+          description: Comment created (simulated)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters or payload.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    ServerError:
+      description: Unexpected server error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  schemas:
+    Post:
+      type: object
+      properties:
+        userId:
+          type: integer
+        id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+      required:
+        - userId
+        - id
+        - title
+        - body
+
+    Comment:
+      type: object
+      properties:
+        postId:
+          type: integer
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        body:
+          type: string
+      required:
+        - postId
+        - id
+        - name
+        - email
+        - body
+
+    NewComment:
+      type: object
+      properties:
+        postId:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        body:
+          type: string
+      required:
+        - postId
+        - name
+        - email
+        - body
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            suite:
+              type: string
+            city:
+              type: string
+            zipcode:
+              type: string
+        phone:
+          type: string
+        website:
+          type: string
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+            catchPhrase:
+              type: string
+            bs:
+              type: string
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+          description: Optional machine-readable error code.
+        details:
+          type: object
+          additionalProperties: true
+          description: Optional extra information about the error.
+      required:
+        - message
