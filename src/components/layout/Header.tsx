@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "@/theme/ThemeToggle";
 import type { FunctionComponent } from "react";
 
 const SITE_TITLE = "Blog Platform";
@@ -15,10 +15,7 @@ export const Header: FunctionComponent = () => {
           {SITE_TITLE}
         </Link>
 
-        <nav
-          aria-label="Main navigation"
-          className="flex items-center gap-2"
-        >
+        <nav aria-label="Main navigation" className="flex items-center gap-2">
           <Link
             href="/"
             className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
@@ -30,4 +27,4 @@ export const Header: FunctionComponent = () => {
       </div>
     </header>
   );
-}
+};

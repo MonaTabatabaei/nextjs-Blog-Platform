@@ -1,4 +1,4 @@
-import { SortOption } from "@/lib/sortPosts";
+import { SortOption } from "@/utils";
 
 export type BlogPost = {
   id: number;
@@ -15,4 +15,6 @@ export type BlogHomeProps = {
   posts: BlogPost[];
   sort: SortOption;
   searchQuery: string;
+  /** When true, posts = all filtered; BlogHome sorts by total comments (incl. local) and paginates client-side */
+  isCommentSortMode?: boolean;
 };

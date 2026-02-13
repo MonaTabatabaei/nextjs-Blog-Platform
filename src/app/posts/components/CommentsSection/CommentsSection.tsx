@@ -1,7 +1,7 @@
 "use client";
 
 import { AddCommentForm } from "@/app/posts/components/AddCommentForm/AddCommentForm";
-import { usePersistedComments } from "@/lib/usePersistedComments";
+import { usePersistedComments } from "@/hooks/usePersistedComments";
 import type { CommentsSectionProps, CommentWithMeta } from "./types";
 import type { FunctionComponent } from "react";
 import { CommentsList } from "../CommentsList";
@@ -34,5 +34,3 @@ export const CommentsSection: FunctionComponent<CommentsSectionProps> = (
     </section>
   );
 };
-
-

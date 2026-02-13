@@ -24,16 +24,13 @@ export function useLocalCommentCounts(postIds: number[]): CountsMap {
 
   const idsKey = postIds.join(",");
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  const refresh = () => {
     if (postIds.length === 0) {
       setCounts({});
       return;
     }
-
     try {
       const next: CountsMap = {};
-
       for (const id of postIds) {
         const raw = window.localStorage.getItem(getStorageKey(id));
         if (!raw) {
@@ -43,12 +40,26 @@ export function useLocalCommentCounts(postIds: number[]): CountsMap {
         const parsed = JSON.parse(raw) as CommentLike[];
         next[id] = Array.isArray(parsed) ? parsed.length : 0;
       }
-
       setCounts(next);
     } catch {
-      // اگر localStorage خراب بود، سایلنت fail می‌کنیم تا UI نجنبّد
       setCounts({});
     }
+  };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (postIds.length === 0) {
+      setCounts({});
+      return;
+    }
+    refresh();
+  }, [idsKey, postIds]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || postIds.length === 0) return;
+    const handler = () => refresh();
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
   }, [idsKey, postIds]);
 
   return counts;

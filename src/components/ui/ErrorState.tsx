@@ -2,7 +2,7 @@ import type { FunctionComponent } from "react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 interface ErrorStateProps {
   title: string;
@@ -40,4 +40,3 @@ export const ErrorState: FunctionComponent<ErrorStateProps> = ({
     </div>
   );
 };
-

@@ -1,5 +1,5 @@
-import { BlogPost } from "@/app/Blog/components/BlogHome/types";
-import { SortOption } from "@/lib/sortPosts";
+import type { BlogPost } from "@/components/blog/BlogHome/types";
+import { SortOption } from "@/utils";
 
 export type AuthorPostsSectionProps = {
   posts: BlogPost[];

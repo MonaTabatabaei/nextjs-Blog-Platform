@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 
 import { getAuthorById, getPostsByAuthor } from "@/lib/api";
-import { sortPosts, type SortOption } from "@/lib/sortPosts";
+import { sortPosts, type SortOption } from "@/utils";
 import { AuthorHeader } from "@/app/authors/components/AuthorHeader/AuthorHeader";
-import { AuthorPostsSection } from "@/app/authors/components/AuthorPostsSection/AuthorPostsSection";
 import type { PageProps } from "./types";
 import { FunctionComponent } from "react";
+import { AuthorPostsSection } from "../components/AuthorPostsSection";
 
 function parseSortOption(value: string | undefined): SortOption {
   const valid: SortOption[] = [

@@ -2,15 +2,20 @@ import Link from "next/link";
 import type { FunctionComponent } from "react";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import type { PageItem, PaginationProps } from "./types";
 
-const createPageHref = (page: number) => {
-  if (page <= 1) return "/";
+function createPageHref(
+  page: number,
+  preserveParams?: { sort?: string; q?: string },
+) {
   const params = new URLSearchParams();
-  params.set("page", page.toString());
-  return `/?${params.toString()}`;
-};
+  if (page > 1) params.set("page", page.toString());
+  if (preserveParams?.sort) params.set("sort", preserveParams.sort);
+  if (preserveParams?.q) params.set("q", preserveParams.q);
+  const query = params.toString();
+  return query ? `/?${query}` : "/";
+}
 
 function getPageItems(currentPage: number, totalPages: number): PageItem[] {
   if (totalPages <= 5) {
@@ -62,7 +67,7 @@ function getPageItems(currentPage: number, totalPages: number): PageItem[] {
 }
 
 export const Pagination: FunctionComponent<PaginationProps> = (props) => {
-  const { currentPage, totalPages } = props;
+  const { currentPage, totalPages, preserveParams } = props;
   if (totalPages <= 1) return null;
 
   const prevPage = currentPage - 1;
@@ -90,7 +95,7 @@ export const Pagination: FunctionComponent<PaginationProps> = (props) => {
             isFirstPage && "pointer-events-none opacity-50",
           )}
         >
-          <Link href={createPageHref(isFirstPage ? 1 : prevPage)}>
+          <Link href={createPageHref(isFirstPage ? 1 : prevPage, preserveParams)}>
             <span className="inline sm:hidden">&lt;&lt;</span>
             <span className="hidden sm:inline">Previous</span>
           </Link>
@@ -115,7 +120,7 @@ export const Pagination: FunctionComponent<PaginationProps> = (props) => {
                 aria-current={item === currentPage ? "page" : undefined}
                 className="min-w-8 px-2 text-xs sm:text-sm"
               >
-                <Link href={createPageHref(item)}>{item}</Link>
+                <Link href={createPageHref(item, preserveParams)}>{item}</Link>
               </Button>
             ),
           )}
@@ -132,7 +137,7 @@ export const Pagination: FunctionComponent<PaginationProps> = (props) => {
             isLastPage && "pointer-events-none opacity-50",
           )}
         >
-          <Link href={createPageHref(isLastPage ? totalPages : nextPage)}>
+          <Link href={createPageHref(isLastPage ? totalPages : nextPage, preserveParams)}>
             <span className="inline sm:hidden">&gt;&gt;</span>
             <span className="hidden sm:inline">Next</span>
           </Link>

@@ -10,18 +10,18 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 
 const Form = FormProvider;
 
 type FormFieldProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = ControllerProps<TFieldValues, TName>;
 
 function FormField<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >(props: FormFieldProps<TFieldValues, TName>) {
   const { control } = useFormContext<TFieldValues>();
   return <Controller {...props} control={control} />;
@@ -59,9 +59,12 @@ const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p ref={ref} className={cn("text-xs text-destructive", className)} {...props} />
+  <p
+    ref={ref}
+    className={cn("text-xs text-destructive", className)}
+    {...props}
+  />
 ));
 FormMessage.displayName = "FormMessage";
 
 export { Form, FormField, FormItem, FormLabel, FormControl, FormMessage };
-

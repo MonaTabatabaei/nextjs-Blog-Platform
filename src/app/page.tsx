@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { getBlogPosts } from "@/lib/api";
-import { sortPosts, type SortOption } from "@/lib/sortPosts";
-import { filterPosts } from "@/lib/filterPosts";
-import { BlogHome } from "./Blog/components/BlogHome";
-import { Pagination } from "./Blog/components/Pagination";
+import { filterPosts, sortPosts, type SortOption } from "@/utils";
+import { BlogHome } from "@/components/blog/BlogHome";
+import { Pagination } from "@/components/blog/Pagination";
 
 interface HomeProps {
   searchParams: Promise<{ page?: string; sort?: string; q?: string }>;
@@ -43,21 +42,28 @@ export default async function Home({ searchParams }: HomeProps) {
 
   // 1) Filter (سرور)
   const filteredPosts = filterPosts(posts, searchQuery);
-
-  // 2) Sort (سرور)
-  const sortedPosts = sortPosts(filteredPosts, sortOption);
-
-  // 3) Paginate
-  const totalPosts = sortedPosts.length;
+  const totalPosts = filteredPosts.length;
   const totalPages = Math.max(1, Math.ceil(totalPosts / POSTS_PER_PAGE));
 
   if (currentPage > totalPages && totalPages > 0) {
     notFound();
   }
 
-  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-  const endIndex = startIndex + POSTS_PER_PAGE;
-  const paginatedPosts = sortedPosts.slice(startIndex, endIndex);
+  const isCommentSort =
+    sortOption === "comments_desc" || sortOption === "comments_asc";
+
+  let paginatedPosts: typeof filteredPosts;
+  if (isCommentSort) {
+    // Sort & paginate on client (BlogHome) so local comments are included
+    paginatedPosts = filteredPosts;
+  } else {
+    const sortedPosts = sortPosts(filteredPosts, sortOption);
+    const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+    paginatedPosts = sortedPosts.slice(
+      startIndex,
+      startIndex + POSTS_PER_PAGE,
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -74,9 +80,17 @@ export default async function Home({ searchParams }: HomeProps) {
         posts={paginatedPosts}
         sort={sortOption}
         searchQuery={searchQuery}
+        isCommentSortMode={isCommentSort}
       />
 
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        preserveParams={{
+          sort: sortOption !== "date_desc" ? sortOption : undefined,
+          q: searchQuery || undefined,
+        }}
+      />
     </div>
   );
 }

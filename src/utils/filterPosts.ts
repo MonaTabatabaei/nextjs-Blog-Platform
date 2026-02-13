@@ -1,4 +1,4 @@
-import type { BlogPost } from "@/app/Blog/components/BlogHome/types";
+import type { BlogPost } from "@/components/blog/BlogHome/types";
 
 export function filterPosts(posts: BlogPost[], query: string): BlogPost[] {
   const q = query.trim().toLowerCase();
@@ -11,4 +11,3 @@ export function filterPosts(posts: BlogPost[], query: string): BlogPost[] {
     return title.includes(q) || body.includes(q);
   });
 }
-

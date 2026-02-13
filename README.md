@@ -98,15 +98,6 @@ src/
 │   ├── loading.tsx                 # Global loading skeleton
 │   ├── error.tsx                   # Global error boundary
 │   ├── icon.tsx                    # Favicon/icon
-│   ├── Blog/                       # Blog feature (list view)
-│   │   ├── Blog.tsx                # Blog route wrapper (optional)
-│   │   └── components/
-│   │       ├── BlogHome/           # Home composition (SearchBar + Sort + Grid)
-│   │       ├── PostGrid/           # Post cards grid
-│   │       ├── SearchBar/          # Client search input (URL-synced)
-│   │       ├── SortDropdown/       # Sort selector (URL-driven)
-│   │       ├── Pagination/         # Accessible pagination controls
-│   │       └── EmptyState/         # “No results” state
 │   ├── posts/[id]/                 # Single post page
 │   │   ├── page.tsx                # Server component: fetch post + comments
 │   │   └── components/             # Post detail UI, loading, error
@@ -115,21 +106,41 @@ src/
 │       └── components/             # Author header + author posts section
 │
 ├── components/
-│   ├── layout/                     # Header, Container, ThemeToggle, layout types
-│   ├── ui/                         # shadcn-style primitives (button, card, input, …)
-│   ├── LoadingSkeleton/            # Shared skeleton for blog list
-│   └── providers/QueryProvider.tsx # React Query client provider
+│   ├── layout/                      # Header, layout types
+│   ├── blog/                        # Blog feature (list view)
+│   │   ├── BlogHome/                # Home composition (SearchBar + Sort + Grid)
+│   │   ├── PostGrid/                # Post cards grid
+│   │   ├── SearchBar/               # Client search input (URL-synced)
+│   │   ├── SortDropdown/            # Sort selector (URL-driven)
+│   │   ├── Pagination/              # Accessible pagination controls
+│   │   └── EmptyState/              # No results state
+│   ├── ui/                          # shadcn-style primitives (button, card, input, …)
+│   └── skeleton/                    # Shared skeleton for blog list
 │
-├── lib/
-│   ├── api.ts                      # Server-side blog/author helpers (JSONPlaceholder)
-│   ├── sortPosts.ts                # Pure sort utilities
-│   ├── filterPosts.ts              # Pure search/filter utilities
-│   ├── usePersistedComments.ts     # LocalStorage-backed comments hook
-│   ├── useLocalCommentCounts.ts    # Local comment counts for sorting
-│   ├── generated/                  # Orval + React Query API client
-│   ├── fetcher.ts                  # Custom fetcher used by Orval client
-│   ├── swagger.yaml                # OpenAPI spec for Orval
-│   └── utils.ts                    # Shared utility helpers
+├── providers/
+│   ├── Container.tsx                # Layout container wrapper
+│   └── QueryProvider.tsx            # React Query client provider
+│
+├── theme/
+│   ├── useTheme.ts                  # Theme hook
+│   └── ThemeToggle.tsx              # Dark mode toggle
+│
+├── hooks/
+│   ├── usePersistedComments.ts      # LocalStorage-backed comments hook
+│   └── useLocalCommentCounts.ts     # Local comment counts for sorting
+│
+├── utils/
+│   ├── cn.ts                        # Class name utility (Tailwind merge)
+│   ├── sortPosts.ts                 # Pure sort utilities
+│   ├── filterPosts.ts               # Pure search/filter utilities
+│   └── index.ts                     # Barrel exports
+│
+└── lib/
+    ├── api.ts                       # Server-side blog/author helpers (JSONPlaceholder)
+    ├── swagger.yaml                 # OpenAPI spec for Orval
+    └── generated/                   # Orval + React Query API client
+        ├── blog-api.ts              # Generated API client
+        └── fetcher.ts               # Custom fetcher
 
 ---
 

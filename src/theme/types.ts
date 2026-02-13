@@ -1,7 +1,3 @@
-export type ContainerProps = {
-  children: React.ReactNode;
-  className?: string;
-};
 
 export type ThemeToggleProps = {
   className?: string;

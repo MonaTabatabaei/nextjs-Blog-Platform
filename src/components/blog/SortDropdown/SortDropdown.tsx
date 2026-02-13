@@ -3,8 +3,8 @@
 import { useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { cn } from "@/lib/utils";
-import type { SortOption } from "@/lib/sortPosts";
+import { cn } from "@/utils";
+import type { SortOption } from "@/utils";
 import type { SortDropdownProps } from "./types";
 import type { FunctionComponent } from "react";
 

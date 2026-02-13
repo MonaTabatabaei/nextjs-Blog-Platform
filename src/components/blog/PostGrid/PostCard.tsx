@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MessageCircle } from "lucide-react";
-import { usePersistedComments } from "@/lib/usePersistedComments";
+import { usePersistedComments } from "@/hooks/usePersistedComments";
 import type { FunctionComponent } from "react";
 import type { PostCardProps } from "./types";
 

@@ -1,15 +1,15 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/components/layout/useTheme";
+import { useTheme } from "@/theme/useTheme";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import type { FunctionComponent } from "react";
 import type { ThemeToggleProps } from "./types";
 
 export const ThemeToggle: FunctionComponent<ThemeToggleProps> = (props) => {
   const { className } = props;
-  
+
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {

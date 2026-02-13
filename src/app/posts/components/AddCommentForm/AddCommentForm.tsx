@@ -196,7 +196,7 @@ export function AddCommentForm({
                     <Textarea
                       {...field}
                       rows={4}
-                      placeholder="Write at least 10 characters…"
+                      placeholder="Write a comment…"
                       aria-invalid={!!fieldState.error}
                       aria-describedby={
                         fieldState.error ? "comment-body-error" : undefined

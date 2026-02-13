@@ -1,4 +1,4 @@
-import { BlogPost } from "@/app/Blog/components/BlogHome/types";
+import type { BlogPost } from "@/components/blog/BlogHome/types";
 
 export type PageProps = {
   params: Promise<{ id: string }>;

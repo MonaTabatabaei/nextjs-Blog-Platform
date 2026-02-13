@@ -1,4 +1,4 @@
-import type { BlogPost } from "@/app/Blog/components/BlogHome/types";
+import type { BlogPost } from "@/components/blog/BlogHome/types";
 import {
   getPosts as apiGetPosts,
   getUsers as apiGetUsers,

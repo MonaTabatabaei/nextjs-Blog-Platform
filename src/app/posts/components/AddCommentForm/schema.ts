@@ -6,7 +6,7 @@ export const commentSchema = z.object({
     .string()
     .min(1, "Email is required.")
     .email("Please enter a valid email address."),
-  body: z.string().min(10, "Comment must be at least 10 characters long."),
+  body: z.string(),
 });
 
 export type CommentFormValues = z.infer<typeof commentSchema>;

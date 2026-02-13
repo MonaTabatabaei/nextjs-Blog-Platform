@@ -3,11 +3,10 @@
 import type { FunctionComponent } from "react";
 import { useMemo } from "react";
 
-import { PostGrid } from "@/app/Blog/components/PostGrid";
-import { useLocalCommentCounts } from "@/lib/useLocalCommentCounts";
-import { SortDropdown } from "@/app/Blog/components/SortDropdown";
+import { PostGrid } from "@/components/blog/PostGrid";
+import { useLocalCommentCounts } from "@/hooks/useLocalCommentCounts";
+import { SortDropdown } from "@/components/blog/SortDropdown";
 import type { AuthorPostsSectionProps } from "./types";
-
 
 export const AuthorPostsSection: FunctionComponent<AuthorPostsSectionProps> = (
   props,
@@ -53,4 +52,3 @@ export const AuthorPostsSection: FunctionComponent<AuthorPostsSectionProps> = (
     </section>
   );
 };
-

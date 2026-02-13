@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils";
 import type { ContainerProps } from "./types";
 import type { FunctionComponent } from "react";
 
